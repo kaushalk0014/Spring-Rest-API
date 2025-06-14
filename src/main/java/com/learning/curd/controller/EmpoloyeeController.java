@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +61,12 @@ public class EmpoloyeeController {
 	public ResponseEntity<Employee> updateGender(@PathVariable("id") Integer id,  @RequestBody Employee employee){
 		employee = service.updateGender(employee, id);
 		return new ResponseEntity<Employee>(employee, HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteEmployeeById(@PathVariable Integer id){
+		service.deleteEmployeeById(id);
+		return new ResponseEntity<String>("Employee deleted successfully id : "+id, HttpStatus.OK);
 	}
 
 }

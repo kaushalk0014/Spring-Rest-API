@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.curd.dao.EmployeeRepositry;
 import com.learning.curd.entiry.Employee;
@@ -27,17 +29,19 @@ public class EmployeeService {
 		return repositry.findAll();
 	}
 
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Employee createEmployee(Employee employee) {
 		Integer id =repositry.findMaxId();
-		employee.setId(++id);
-		return repositry.save(employee);
+		id= id==null?1 :id+1;
+		employee.setId(id);
+		return repositry.saveAndFlush(employee);
 	}
 
 
 	public Employee updateEmployee(Employee employee, Integer id) {
 		 Employee existing = getEmployeeById(id);
 		 existing.setName(employee.getName());
-		 existing.setGender(employee.getName());
+		 existing.setGender(employee.getGender());
 		 existing.setSalary(employee.getSalary());
 		return repositry.save(existing);
 	}
@@ -48,6 +52,10 @@ public class EmployeeService {
 		
 		existing= repositry.save(existing);
 		return existing;
+	}
+
+	public void deleteEmployeeById(Integer id) {
+		repositry.deleteById(id);
 	}
 
 }
