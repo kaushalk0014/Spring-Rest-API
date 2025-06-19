@@ -18,9 +18,9 @@ public class JwtService {
 	
 	private final String SECURITY_KEY = "265_bit_secret";
 	
-	public String generateToken(UserDetails details) {
+	public String generateToken(String userName) {
 		return Jwts.builder()
-				.setSubject(details.getUsername())
+				.setSubject(userName)
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis()+ 1000 * 60 * 60))//1 hour
 				.signWith(getSignKey(), SignatureAlgorithm.ES256)
