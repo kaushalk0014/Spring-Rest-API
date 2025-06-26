@@ -1,36 +1,35 @@
 package com.learning.curd.controller.advice;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.error.ErrorAttributeOptions;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
-import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import jakarta.servlet.http.HttpServletRequest;
+import com.learning.exception.UserCreationException;
 
 @RestControllerAdvice
-public class EmployeeControllerAdvice implements ErrorController {
+public class EmployeeControllerAdvice extends ResponseEntityExceptionHandler{
 
-	private static final String path = "/error";
-
-	@Autowired
-	private ErrorAttributes attributes;
-
-	@RequestMapping(path)
-	public ResponseEntity<Map<String, Object>> handleError(HttpServletRequest request) {
-		WebRequest webRequest = new ServletWebRequest(request);
-
-		Map<String, Object> errorDetails = attributes.getErrorAttributes(webRequest, ErrorAttributeOptions.defaults());
-
-		int status = (int) errorDetails.getOrDefault("status", 500);
-
-		return ResponseEntity.status(status).body(errorDetails);
+	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+		 
+		System.out.println("---------handleMethodArgumentNotValid----------------");
+		
+		return super.handleMethodArgumentNotValid(ex, headers, status, request);
+	}
+	
+	@ExceptionHandler(UserCreationException.class)
+	public ResponseEntity<String> userCreationException(UserCreationException creationException, WebRequest request){
+		System.out.println("---------userCreationException----------------");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(creationException.getMessage());
 	}
 
 }

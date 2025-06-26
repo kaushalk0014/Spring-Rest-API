@@ -1,4 +1,4 @@
-package com.learning.curd.service.security;
+package com.learning.curd.security.service;
 
 
 import java.security.Key;

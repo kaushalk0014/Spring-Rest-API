@@ -12,5 +12,11 @@ public class AuthResponse {
 		this.token = token;
 	}
 	
+	public AuthResponse() {
+	}
+	public AuthResponse(String token) {
+		 this.token= token;
+	}
+	
 	
 }

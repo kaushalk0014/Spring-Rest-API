@@ -1,4 +1,4 @@
-package com.learning.enception;
+package com.learning.exception;
 
 public class ResourceNotFoundException extends RuntimeException{
 

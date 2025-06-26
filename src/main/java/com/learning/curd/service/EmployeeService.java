@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.curd.dao.EmployeeRepositry;
 import com.learning.curd.entiry.Employee;
-import com.learning.enception.ResourceNotFoundException;
+import com.learning.exception.ResourceNotFoundException;
 
 @Service
 public class EmployeeService {
