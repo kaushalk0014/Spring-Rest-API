@@ -1,4 +1,4 @@
-package com.learning.curd.security;
+package com.learning.curd.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class SecurityConfig {
 		http
 		.csrf(AbstractHttpConfigurer::disable)
 		.authorizeHttpRequests(auth-> 
-			auth.requestMatchers("/home/**", "/api/auth/**")
+			auth.requestMatchers("/home/**", "/user/register", "/api/auth/login")
 		.permitAll()
 				
 		.anyRequest().authenticated())

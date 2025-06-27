@@ -1,23 +1,15 @@
-package com.learning.curd.entiry;
+package com.learning.curd.dto;
 
 import java.util.List;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+public class AppUser {
 
-@Table(name = "user_details")
-@Entity
-public class CustomUserDetails {
-
-	@Id
 	private String username;
 	private String password;
-
-	@ElementCollection(fetch = FetchType.EAGER)
+	
 	private List<String> roles;
+
+	 
 
 	public String getUsername() {
 		return username;
@@ -42,5 +34,6 @@ public class CustomUserDetails {
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
-
+	
+	
 }

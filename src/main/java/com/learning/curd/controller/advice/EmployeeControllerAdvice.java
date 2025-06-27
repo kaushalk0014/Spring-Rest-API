@@ -20,14 +20,11 @@ public class EmployeeControllerAdvice extends ResponseEntityExceptionHandler{
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		 
-		System.out.println("---------handleMethodArgumentNotValid----------------");
-		
 		return super.handleMethodArgumentNotValid(ex, headers, status, request);
 	}
 	
 	@ExceptionHandler(UserCreationException.class)
 	public ResponseEntity<String> userCreationException(UserCreationException creationException, WebRequest request){
-		System.out.println("---------userCreationException----------------");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(creationException.getMessage());
 	}
