@@ -43,4 +43,10 @@ public class CustomUserDetails {
 		this.roles = roles;
 	}
 
+	@Override
+	public String toString() {
+		return "CustomUserDetails [username=" + username + ", password=" + password + ", roles=" + roles + "]";
+	}
+
+	
 }

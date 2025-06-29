@@ -18,8 +18,8 @@ public class UserService {
 	@Autowired
 	private UserRepositry userRepositry;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	//@Autowired
+	//private PasswordEncoder passwordEncoder;
 	
 	public void registerUser(AppUser user) {
 		 
@@ -30,11 +30,11 @@ public class UserService {
 			throw new UserCreationException("Usrename : "+user.getUsername()+ " already exist, Try with other username");
 		}
 		
-		String password=passwordEncoder.encode(user.getPassword());
+		//String password=passwordEncoder.encode(user.getPassword());
 		
 		 CustomUserDetails customUserDetails=new CustomUserDetails();
 		 customUserDetails.setUsername(user.getUsername());
-		 customUserDetails.setPassword(password);
+		 customUserDetails.setPassword(user.getPassword());
 		 customUserDetails.setRoles(user.getRoles());
 		 userRepositry.save(customUserDetails);
 	}

@@ -28,13 +28,14 @@ public class AuthController {
 	@Autowired
 	private JwtService jwtService;
 	
-	@Autowired
-	private APIUserDetailsService userDetailsService;
-	
 	@PostMapping("/login")
 	public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest){
 		try {
-			  authenticationManager
+			
+			System.out.println("username : "+authRequest.getUsername());
+			System.out.println("password : "+authRequest.getPassword());
+			
+			authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
 						authRequest.getPassword()));
 				
