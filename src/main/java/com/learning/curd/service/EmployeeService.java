@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.curd.dao.EmployeeRepositry;
+import com.learning.curd.dto.CustomUserDetailsDTO;
 import com.learning.curd.entiry.Employee;
 import com.learning.exception.ResourceNotFoundException;
 
@@ -56,6 +57,21 @@ public class EmployeeService {
 
 	public void deleteEmployeeById(Integer id) {
 		repositry.deleteById(id);
+	}
+
+	public CustomUserDetailsDTO getUserById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public CustomUserDetailsDTO getUserByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<CustomUserDetailsDTO> getAllUser() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
