@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.learning.curd.dao.UserRepositry;
-import com.learning.curd.dto.AppUser;
+import com.learning.curd.dto.AppUserDTO;
 import com.learning.curd.entiry.CustomUserDetails;
 import com.learning.exception.ResourceNotFoundException;
 import com.learning.exception.UserCreationException;
@@ -21,7 +21,7 @@ public class UserService {
 	//@Autowired
 	//private PasswordEncoder passwordEncoder;
 	
-	public void registerUser(AppUser user) {
+	public void registerUser(AppUserDTO user) {
 		 
 		Optional<CustomUserDetails> dbuser = userRepositry.findById(user.getUsername());
 		

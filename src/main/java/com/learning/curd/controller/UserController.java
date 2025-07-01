@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.learning.curd.dto.AppUser;
-import com.learning.curd.dto.CustomUserDetailsDTO;
-import com.learning.curd.entiry.CustomUserDetails;
-import com.learning.curd.entiry.Employee;
+import com.learning.curd.dto.AppUserDTO;
+import com.learning.curd.service.AppUserService;
 import com.learning.curd.service.EmployeeService;
 import com.learning.curd.service.UserService;
 
@@ -30,29 +28,34 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private AppUserService appUserService;;
+	
+	
+	
 	@PostMapping("/register")
-	public ResponseEntity<String> registerUser(@RequestBody AppUser user){
+	public ResponseEntity<String> registerUser(@RequestBody AppUserDTO user){
 		userService.registerUser(user);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body("Registetion done successfully");
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<CustomUserDetailsDTO> getUserById(@PathVariable(name = "id") Integer id) {
-		CustomUserDetailsDTO user = service.getUserById(id);
+	public ResponseEntity<AppUserDTO> getUserById(@PathVariable(name = "id") Integer id) {
+		AppUserDTO user = appUserService.getUserById(id);
 
-		return new ResponseEntity<CustomUserDetailsDTO>(user, HttpStatus.OK);
+		return new ResponseEntity<AppUserDTO>(user, HttpStatus.OK);
 	}
 
 	@GetMapping("/getByName")
-	public ResponseEntity<CustomUserDetailsDTO> getUserByName(@RequestParam(name="name") String name) {
-		CustomUserDetailsDTO user = service.getUserByName(name);
-		return new ResponseEntity<CustomUserDetailsDTO>(user, HttpStatus.OK);
+	public ResponseEntity<AppUserDTO> getUserByName(@RequestParam(name="name") String name) {
+		AppUserDTO user = appUserService.getUserByName(name);
+		return new ResponseEntity<AppUserDTO>(user, HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<CustomUserDetailsDTO>> getAllEmployee(){
-		List<CustomUserDetailsDTO> list = service.getAllUser();
-		return new ResponseEntity<List<CustomUserDetailsDTO>>(list, HttpStatus.OK);
+	public ResponseEntity<List<AppUserDTO>> getAllEmployee(){
+		List<AppUserDTO> list = appUserService.getAllUser();
+		return new ResponseEntity<List<AppUserDTO>>(list, HttpStatus.OK);
 	}
 }
