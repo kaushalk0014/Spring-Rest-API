@@ -1,6 +1,6 @@
 package com.learning.curd.security.dto;
 
-public class AuthRequest {
+public class AuthRequestDTO {
 
 	private String username;
 	private String password;

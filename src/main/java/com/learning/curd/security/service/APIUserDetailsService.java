@@ -11,11 +11,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.learning.curd.entiry.CustomUserDetails;
-import com.learning.curd.service.UserService;
+import com.learning.curd.entiry.AuthRequest;
 
 @Service
 public class APIUserDetailsService implements UserDetailsService {
@@ -24,18 +22,18 @@ public class APIUserDetailsService implements UserDetailsService {
 //	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	private UserService userService;
+	private UserAuthService userService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		CustomUserDetails customUserDetails = userService.findByUserName(username);
+		AuthRequest customUserDetails = userService.findByUserName(username);
 
-		customUserDetails.setRoles(Arrays.asList("Admin", "User"));
+		customUserDetails.setRoles(Arrays.asList("USER"));
 		
-		System.out.println(customUserDetails);
+		System.out.println("============"+customUserDetails);
 		
-		  return new org.springframework.security.core.userdetails.User(
+		  return new User(
 				  customUserDetails.getUsername(),
 				  customUserDetails.getPassword(),
 				  customUserDetails.getRoles().stream()
@@ -44,7 +42,7 @@ public class APIUserDetailsService implements UserDetailsService {
 			    );
 	}
 
-	private Collection<? extends GrantedAuthority> getAuthorities(CustomUserDetails user) {
+	private Collection<? extends GrantedAuthority> getAuthorities(AuthRequest user) {
 		return user.getRoles().stream().map(role -> new SimpleGrantedAuthority("USER"))
 				.collect(Collectors.toList());
 	}

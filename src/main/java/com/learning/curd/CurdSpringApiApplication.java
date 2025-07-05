@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.learning.curd.dao")
+@EnableJpaRepositories(basePackages = {"com.learning.curd.dao","com.learning.curd.security.dao"})
 @EntityScan(basePackages ="com.learning.curd.entiry" )
 public class CurdSpringApiApplication {
 

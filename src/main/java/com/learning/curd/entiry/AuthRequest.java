@@ -8,9 +8,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Table(name = "user_details")
+@Table(name = "user_credentials")
 @Entity
-public class CustomUserDetails {
+public class AuthRequest {
 
 	@Id
 	private String username;

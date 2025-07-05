@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.learning.curd.dto.AppUserDTO;
+import com.learning.curd.security.service.UserAuthService;
 import com.learning.curd.service.AppUserService;
 import com.learning.curd.service.EmployeeService;
-import com.learning.curd.service.UserService;
 
 @RestController
 @RequestMapping("/user")
@@ -26,7 +26,7 @@ public class UserController {
 	private EmployeeService service;
 	
 	@Autowired
-	private UserService userService;
+	private UserAuthService userService;
 	
 	@Autowired
 	private AppUserService appUserService;;
@@ -47,14 +47,14 @@ public class UserController {
 		return new ResponseEntity<AppUserDTO>(user, HttpStatus.OK);
 	}
 
-	@GetMapping("/getByName")
+	@GetMapping("/{name}")
 	public ResponseEntity<AppUserDTO> getUserByName(@RequestParam(name="name") String name) {
 		AppUserDTO user = appUserService.getUserByName(name);
 		return new ResponseEntity<AppUserDTO>(user, HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<AppUserDTO>> getAllEmployee(){
+	public ResponseEntity<List<AppUserDTO>> getAllUser(){
 		List<AppUserDTO> list = appUserService.getAllUser();
 		return new ResponseEntity<List<AppUserDTO>>(list, HttpStatus.OK);
 	}

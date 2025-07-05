@@ -33,7 +33,7 @@ public class EmpoloyeeController {
 		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
 	}
 
-	@GetMapping("/getByName")
+	@GetMapping("/{name}")
 	public ResponseEntity<Employee> getEmployeeByName(@RequestParam(name="name") String name) {
 		Employee employee = service.getEmployeeByName(name);
 		return new ResponseEntity<Employee>(employee, HttpStatus.OK);

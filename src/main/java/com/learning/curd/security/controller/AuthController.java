@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.learning.curd.entiry.CustomUserDetails;
-import com.learning.curd.security.dto.AuthRequest;
+import com.learning.curd.security.dto.AuthRequestDTO;
 import com.learning.curd.security.dto.AuthResponse;
-import com.learning.curd.security.service.APIUserDetailsService;
 import com.learning.curd.security.service.JwtService;
 
 @RestController
@@ -29,17 +27,19 @@ public class AuthController {
 	private JwtService jwtService;
 	
 	@PostMapping("/login")
-	public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest){
+	public ResponseEntity<AuthResponse> login(@RequestBody AuthRequestDTO authRequest){
 		try {
-			
-			System.out.println("username : "+authRequest.getUsername());
-			System.out.println("password : "+authRequest.getPassword());
 			
 			authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
 						authRequest.getPassword()));
 				
 				String jwtToken = jwtService.generateToken(authRequest.getUsername());
+				String[] parts = jwtToken.split("\\.");
+				if (parts.length != 3) {
+				    throw new IllegalArgumentException("Invalid JWT format");
+				}
+				
 				AuthResponse authResponse=new AuthResponse(jwtToken);
 				return ResponseEntity.ok(authResponse);
 		}catch (Exception e) {

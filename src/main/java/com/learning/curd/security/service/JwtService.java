@@ -1,7 +1,7 @@
 package com.learning.curd.security.service;
 
-
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,38 +15,38 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtService {
-	
-	private final String SECURITY_KEY = "265_bit_secret";
-	
+
 	public String generateToken(String userName) {
-		return Jwts.builder()
+		return Jwts
+				.builder()
 				.setSubject(userName)
 				.setIssuedAt(new Date())
-				.setExpiration(new Date(System.currentTimeMillis()+ 1000 * 60 * 60))//1 hour
-				.signWith(getSignKey(), SignatureAlgorithm.ES256)
-				.compact();
+				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
 	}
-	
+
 	private Key getSignKey() {
-		byte [] keyBytes = Decoders.BASE64.decode(SECURITY_KEY);
-		return (Key) Keys.hmacShaKeyFor(keyBytes);
+		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);  
+		String base64Key = Base64.getEncoder().encodeToString(key.getEncoded());
+		return Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64Key));
 	}
 
 	public boolean validateToken(String token, UserDetails userDetails) {
-		final String username = extractUserame(token);
+		final String username = extractUsername(token);
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
-	
+
 	private boolean isTokenExpired(String token) {
 		return extractAllClaims(token).getExpiration().before(new Date());
 	}
-	
-	public String extractUserame(String token) {
+
+	public String extractUsername(String token) {
 		return extractAllClaims(token).getSubject();
 	}
-	
-	public Claims extractAllClaims(String token) {
-		return Jwts.parserBuilder()
+
+	private Claims extractAllClaims(String token) {
+		return Jwts
+				.parserBuilder()
 				.setSigningKey(getSignKey())
 				.build()
 				.parseClaimsJws(token)
