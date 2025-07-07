@@ -16,6 +16,8 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtService {
 
+	private static final String SECRET_KEY = "a2F1c2hhbHNwcmluZ2Jvb3RhcHBsaWNhdGlvbg==";
+	
 	public String generateToken(String userName) {
 		return Jwts
 				.builder()
@@ -25,10 +27,15 @@ public class JwtService {
 				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
 	}
 
+//	private Key getSignKey() {
+//		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);  
+//		String base64Key = Base64.getEncoder().encodeToString(key.getEncoded());
+//		return Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64Key));
+//	}
+	
 	private Key getSignKey() {
-		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);  
-		String base64Key = Base64.getEncoder().encodeToString(key.getEncoded());
-		return Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64Key));
+	    byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+	    return Keys.hmacShaKeyFor(keyBytes);
 	}
 
 	public boolean validateToken(String token, UserDetails userDetails) {
