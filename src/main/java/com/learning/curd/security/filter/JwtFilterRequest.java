@@ -3,6 +3,7 @@ package com.learning.curd.security.filter;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,9 +23,11 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtFilterRequest extends OncePerRequestFilter{
 	
 	@Autowired
+	@Lazy
 	private JwtService jwtService;
 	
 	@Autowired
+	@Lazy
 	private APIUserDetailsService apiUserDetailsService;
 	
 	@Override
@@ -40,7 +43,7 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 		
 		if(authHeader!=null && authHeader.startsWith("JWT ")) {
 			jwt = authHeader.substring(4);
-			userName = jwtService.extractUsername(authHeader);
+			userName = jwtService.extractUsername(jwt);
 		}
 		if(userName!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
 			UserDetails userDetails = this.apiUserDetailsService.loadUserByUsername(userName);

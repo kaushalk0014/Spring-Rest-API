@@ -30,11 +30,12 @@ public class AuthController {
 	public ResponseEntity<AuthResponse> login(@RequestBody AuthRequestDTO authRequest){
 		try {
 			
+			String role= "ADMIN";
 			authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
 						authRequest.getPassword()));
 				
-				String jwtToken = jwtService.generateToken(authRequest.getUsername());
+				String jwtToken = jwtService.generateToken(authRequest.getUsername(), role);
 				String[] parts = jwtToken.split("\\.");
 				if (parts.length != 3) {
 				    throw new IllegalArgumentException("Invalid JWT format");
